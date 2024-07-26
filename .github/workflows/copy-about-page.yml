@@ -6,6 +6,7 @@ on:
       - main
   schedule:
     - cron: '0 0 * * *' # This will run the workflow daily at midnight UTC
+  workflow_dispatch: # Run manually
 
 jobs:
   download-and-copy:
