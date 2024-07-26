@@ -19,11 +19,11 @@ jobs:
         run: curl -o about.html https://spageektti.cc/spageektti/index.html
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         run: |
           git config --global user.name 'github-actions'
           git config --global user.email 'github-actions@github.com'
           git add about.html
           git commit -m 'Update about.html from spageektti.cc/spageektti'
           git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
