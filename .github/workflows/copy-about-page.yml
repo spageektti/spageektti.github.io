@@ -1,0 +1,29 @@
+name: Copy "About" Page from profile readme repo
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 0 * * *' # This will run the workflow daily at midnight UTC
+
+jobs:
+  download-and-copy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Download index.html from profile readme repo
+        run: curl -o about.html https://spageektti.cc/spageektti/index.html
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add about.html
+          git commit -m 'Update about.html from spageektti.cc/spageektti'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
