@@ -9,6 +9,8 @@ on:
 
 jobs:
   download-and-copy:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
 
     steps:
