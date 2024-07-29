@@ -3,7 +3,7 @@
   text-align: center;
 }
 
-h1, h2, h3, h4, p{
+h1, h2, h3, h4, p, li{
   font-family: "Fira Mono", monospace;
   font-weight: 400;
   font-style: normal;
