@@ -111,7 +111,7 @@ a:active {
 }
 
 .current {
-  color: #FF69B4;
+  color: #FF69B4 !important;
 }
 
 nav ul {
