@@ -78,3 +78,7 @@ body{
 footer p, .contact-info{
   text-align: center;
 }
+
+ul {
+  list-style-type: none;
+}
