@@ -73,3 +73,7 @@ header{
     flex: 0 0 100%;
   }
 }
+
+footer p{
+  text-align: center;
+}
