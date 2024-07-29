@@ -55,17 +55,17 @@ header{
   height: auto;
 }
 
-.aboutMes {
+.aboutme {
   padding: 40px 0;
   background-color: #f9f9f9;
 }
 
-.aboutMes h3 {
+.aboutme h3 {
   font-size: 1.5em;
   margin: 20px 0 10px;
 }
 
-.aboutMes p {
+.aboutme p {
   font-size: 1em;
   color: #555;
 }
