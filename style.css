@@ -82,3 +82,7 @@ footer p, .contact-info{
 ul {
   list-style-type: none;
 }
+
+p strong{
+  text-align: center;
+}
