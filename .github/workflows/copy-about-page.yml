@@ -1,4 +1,4 @@
-name: Copy "About" Page from profile readme repo
+name: Copy the "About" Page from the profile readme repo
 
 on:
   push:
@@ -21,7 +21,20 @@ jobs:
       - name: Download index.html from profile readme repo
         run: curl -o about.html https://spageektti.cc/spageektti/index.html
 
+      - name: Check for changes
+        id: changes
+        run: |
+          git fetch
+          if git diff --exit-code about.html; then
+            echo "No changes detected"
+            echo "::set-output name=changed::false"
+          else
+            echo "Changes detected"
+            echo "::set-output name=changed::true"
+          fi
+
       - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         run: |
