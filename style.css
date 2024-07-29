@@ -19,3 +19,59 @@ body{
 header{
   height: 5rem;
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -10px;
+}
+
+.col {
+  padding: 10px;
+  flex: 1;
+  min-width: 300px;
+}
+
+.col--4 {
+  flex: 0 0 33.3333%;
+}
+
+.text--center {
+  text-align: center;
+}
+
+.padding-horiz--md {
+  padding: 0 15px;
+}
+
+.aboutMeSvg {
+  max-width: 100%;
+  height: auto;
+}
+
+.aboutMes {
+  padding: 40px 0;
+  background-color: #f9f9f9;
+}
+
+.aboutMes h3 {
+  font-size: 1.5em;
+  margin: 20px 0 10px;
+}
+
+.aboutMes p {
+  font-size: 1em;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .col--4 {
+    flex: 0 0 100%;
+  }
+}
