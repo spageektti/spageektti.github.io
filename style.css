@@ -17,7 +17,7 @@ body{
   color: white;
 }
 header{
-  height: 5rem;
+  height: 10rem;
 }
 
 .container {
@@ -51,13 +51,11 @@ header{
 }
 
 .aboutMeSvg {
-  max-width: 100%;
-  height: auto;
+  max-height: 100px;
 }
 
 .aboutme {
   padding: 40px 0;
-  background-color: #f9f9f9;
 }
 
 .aboutme h3 {
@@ -67,7 +65,7 @@ header{
 
 .aboutme p {
   font-size: 1em;
-  color: #555;
+  color: whitesmoke;
 }
 
 @media (max-width: 768px) {
