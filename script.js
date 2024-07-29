@@ -6,6 +6,7 @@ const options = {
             backDelay: 1000,
             smartBackspace: false,
             loop: true,
+            showCursor: false,
         };
 
         const typed = new Typed("#animated-heading", options);
