@@ -86,3 +86,21 @@ ul {
 p strong{
   text-align: center;
 }
+
+a {
+    color: #00FFFF;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #FF00FF;
+    text-decoration: underline;
+}
+
+a:active {
+    color: #FFFF00;
+}
+
+a:visited {
+    color: #FF69B4;
+}
