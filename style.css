@@ -5,6 +5,9 @@
 body{
   width: 100%;
   margin: 0;
+  
+  background-color: black;
+  color: white;
 }
 header{
   height: 5rem;
