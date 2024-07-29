@@ -1,23 +1,30 @@
-#animated-heading{
+#animated-heading {
   width: 100%;
   text-align: center;
 }
 
-h1, h2, h3, h4, h5, h6, p, li{
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+li {
   font-family: "Fira Mono", monospace;
   font-weight: 400;
   font-style: normal;
 }
 
-body{
+body {
   width: 100%;
   margin: 0;
-  
+
   background-color: black;
   color: white;
 }
 
-.animated-heading-wrapper{
+.animated-heading-wrapper {
   height: 10rem;
 }
 
@@ -40,7 +47,7 @@ body{
 }
 
 .col--4 {
-  flex: 0 0 33.3333%;
+  flex: 0 0 50%;
 }
 
 .text--center {
@@ -75,7 +82,8 @@ body{
   }
 }
 
-footer p, .contact-info{
+footer p,
+.contact-info {
   text-align: center;
 }
 
@@ -83,24 +91,24 @@ ul {
   list-style-type: none;
 }
 
-.about-me{
+.about-me {
   text-align: center;
 }
 
 a {
-    color: #00FFFF;
-    text-decoration: none;
+  color: #00FFFF;
+  text-decoration: none;
 }
 
 a:hover {
-    color: #FF00FF;
-    text-decoration: underline;
+  color: #FF00FF;
+  text-decoration: underline;
 }
 
 a:active {
-    color: #FFFF00;
+  color: #FFFF00;
 }
 
 a:visited {
-    color: #FF69B4;
+  color: #FF69B4;
 }
