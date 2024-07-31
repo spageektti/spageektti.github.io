@@ -1,4 +1,5 @@
-#animated-heading {
+#animated-heading,
+h1 {
   width: 100%;
   text-align: center;
 }

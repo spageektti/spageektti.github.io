@@ -7,7 +7,7 @@ try {
         backDelay: 1000,
         smartBackspace: false,
         loop: true,
-        showCursor: false,
+        showCursor: true,
     };
 
     const typed = new Typed("#animated-heading", options);
