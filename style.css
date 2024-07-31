@@ -132,3 +132,18 @@ nav ul li a {
 nav ul li a:hover {
   background-color: white;
 }
+
+.contributions-high a {
+  color: #FFD700;
+  text-decoration: underline;
+}
+
+.contributions-medium a {
+  color: #8080ff;
+  text-decoration: underline;
+}
+
+.contributions-low a {
+  color: #98FF98;
+  text-decoration: underline;
+}
