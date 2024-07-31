@@ -82,9 +82,13 @@ body {
   }
 }
 
-footer p,
-.contact-info {
+footer p {
   text-align: center;
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
 }
 
 ul {
