@@ -103,7 +103,7 @@ a:visited {
 
 a:hover {
   color: #FF00FF;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 a:active {
@@ -134,5 +134,5 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-  background-color: #ddd;
+  background-color: white;
 }
