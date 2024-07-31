@@ -1,6 +1,6 @@
 try {
     const options = {
-        strings: ['My name is Wiktor.', 'I am also known as spageektti.', 'I am Open Source maintainer and contributor.', 'I am a student.', 'I am a medalist of the Polish Junior Olympiad in Informatics.'
+        strings: ['Mam na imię Wiktor.', 'Jestem także znany jako spageektti.', 'Jestem opiekunem i kontrybutorem open source.', 'Jestem studentem.', 'Jestem medalistą Olimpiady Informatycznej Juniorów.'
         ],
         typeSpeed: 60,
         backSpeed: 60,

@@ -168,7 +168,7 @@ nav ul li a:hover {
   margin: 4px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   nav ul {
     display: none;
     flex-direction: column;
