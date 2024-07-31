@@ -157,13 +157,14 @@ nav ul li a:hover {
   display: none;
   flex-direction: column;
   cursor: pointer;
+  padding: 5px;
 }
 
 .menu-toggle span {
   height: 2px;
   width: 25px;
   background-color: white;
-  margin: 4px 0;
+  margin: 4px;
 }
 
 @media (max-width: 768px) {
