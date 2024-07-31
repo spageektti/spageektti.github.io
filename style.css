@@ -151,3 +151,32 @@ nav ul li a:hover {
   color: #98FF98;
   text-decoration: underline;
 }
+
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  height: 2px;
+  width: 25px;
+  background-color: white;
+  margin: 4px 0;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+
+  nav ul.showing {
+    display: flex;
+  }
+}
