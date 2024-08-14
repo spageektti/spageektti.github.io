@@ -61,6 +61,8 @@ body {
 
 .aboutMeSvg {
   max-height: 100px;
+  border: solid 1 transparent;
+  border-radius: 10px;
 }
 
 .aboutme {
@@ -182,4 +184,8 @@ nav ul li a:hover {
   nav ul.showing {
     display: flex;
   }
+}
+
+.achievment {
+  color: #98FF98;
 }
