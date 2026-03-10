@@ -1,13 +1,42 @@
 <header>
-    <h1>{{ site.title }}</h1>
     <nav>
+        <div>
+            <!-- add photo later -->
+            <a href="{{ site.url }}">Wiktor Perskawiec</a>
+        </div>
         <ul>
-            <li>
-                <a href="{{ site.url }}">Home</a>
-            </li>
             <li>
                 <a href="{{ site.url }}/about">About</a>
             </li>
         </ul>
     </nav>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const body = document.body;
+
+        document.addEventListener('click', function(event) {
+            if (event.target.tagName === 'A') {
+                // Prevent default anchor click behavior
+                event.preventDefault();
+                const targetUrl = event.target.href;
+
+                // Add slide-out class
+                body.classList.remove('slide-in');
+                body.classList.add('slide-out');
+
+                // Wait for the animation to finish, then navigate
+                setTimeout(function() {
+                    window.location.href = targetUrl;
+                }, 500); // Match the delay with your animation duration
+            }
+        });
+
+        // Remove the slide-out class once the page is loaded
+        window.addEventListener('load', function() {
+            body.classList.remove('slide-out');
+            body.classList.add('slide-in');
+        });
+    });
+</script>
+
 </header>

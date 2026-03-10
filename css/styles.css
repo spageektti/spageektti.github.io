@@ -1,0 +1,89 @@
+:root {
+    --background-color: black;
+    --text-color: white;
+    --primary-color: #39ff14;
+}
+
+body{
+    background-color: var(--background-color);
+    color: var(--text-color);
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+main h1, main h3 {
+    text-align: center;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: var(--background-color);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav div a {
+    margin-left: 1rem;
+}
+
+nav ul {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+nav ul li {
+    margin: 0px 1rem;
+    list-style-type: none;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color)
+}
+
+nav a:hover{
+    color: var(--primary-color);
+}
+
+.slide-in {
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.slide-out {
+    transform: translateX(-100%);
+    opacity: 0;
+    transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+}
+
+.primary{
+    color: var(--primary-color)
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    height: 90vh;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+div{
+    text-align: center;
+}
+
+#intro img {
+    width: 33vw;
+    height: fit-content;
+    border: 1px;
+    border-radius: 1000px;
+}
