@@ -82,8 +82,10 @@ div{
 }
 
 #intro img {
-    width: 33vw;
-    height: 33vw;
+    width: 50vw;
+    height: 50vw;
+    max-width: 500px;
+    max-height: 500px;
     border: 1px;
     border-radius: 1000px;
 }
