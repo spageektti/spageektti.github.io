@@ -4,7 +4,7 @@
     --primary-color: #39ff14;
 }
 
-body{
+body {
     background-color: var(--background-color);
     color: var(--text-color);
     opacity: 1;
@@ -12,7 +12,8 @@ body{
     font-family: 'Arial', sans-serif;
 }
 
-main h1, main h3 {
+main h1,
+main h3 {
     text-align: center;
 }
 
@@ -50,7 +51,7 @@ nav a {
     color: var(--text-color)
 }
 
-nav a:hover{
+nav a:hover {
     color: var(--primary-color);
 }
 
@@ -66,7 +67,7 @@ nav a:hover{
     transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
 }
 
-.primary{
+.primary {
     color: var(--primary-color)
 }
 
@@ -78,15 +79,29 @@ section {
     align-items: center;
 }
 
-div{
+div {
     text-align: center;
 }
 
 #intro img {
-    width: 50vw;
-    height: 50vw;
-    max-width: 500px;
-    max-height: 500px;
+    width: 20vw;
+    height: auto;
+    max-width: 600px;
+    max-height: 600px;
     border: 1px;
     border-radius: 1000px;
+}
+
+@media (max-width: 1200px) {
+    #intro img {
+        width: 30vw;
+    }
+}
+
+@media (max-width: 600px) {
+    #intro img {
+        width: 70vw;
+        max-width: none;
+        max-height: none;
+    }
 }
