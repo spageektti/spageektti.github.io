@@ -9,6 +9,7 @@ body{
     color: var(--text-color);
     opacity: 1;
     transition: opacity 0.5s ease-in-out;
+    font-family: 'Arial', sans-serif;
 }
 
 main h1, main h3 {
