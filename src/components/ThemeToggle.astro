@@ -1,0 +1,74 @@
+---
+import { getTranslations, type Locale } from "@/i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  data-light-label={t.lightMode}
+  data-dark-label={t.darkMode}
+  hidden
+>
+  {t.lightMode}
+</button>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>("#theme-toggle");
+
+  if (button) {
+    const root = document.documentElement;
+
+    function updateLabel() {
+      if (!button) return;
+
+      const isLight = root.dataset.theme === "light";
+
+      button.textContent = isLight
+        ? button.dataset.darkLabel!
+        : button.dataset.lightLabel!;
+    }
+
+    button.addEventListener("click", () => {
+      const theme = root.dataset.theme === "light" ? "dark" : "light";
+
+      root.dataset.theme = theme;
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", theme === "light" ? "#ffffff" : "#141414");
+
+      try {
+        localStorage.setItem("theme", theme);
+      } catch {
+        // Theme switching remains available without storage.
+      }
+
+      updateLabel();
+    });
+
+    updateLabel();
+    button.hidden = false;
+  }
+</script>
+
+<style>
+  button {
+    appearance: none;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  button:hover {
+    color: var(--color-text);
+  }
+</style>

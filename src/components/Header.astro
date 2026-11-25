@@ -1,0 +1,165 @@
+---
+import ThemeToggle from "@/components/ThemeToggle.astro";
+
+import { getTranslations, getAlternateLocale, type Locale } from "@/i18n/ui";
+
+import { navigation, getRoute, normalizePath } from "@/i18n/routes";
+
+interface Props {
+  locale: Locale;
+  alternatePath: string;
+}
+
+const { locale, alternatePath } = Astro.props;
+
+const t = getTranslations(locale);
+const alternateLocale = getAlternateLocale(locale);
+const currentPath = normalizePath(Astro.url.pathname);
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="wordmark" href={getRoute("home", locale).path}>
+      perskawiec.cc
+    </a>
+
+    <nav class="main-navigation" aria-label={t.navigation}>
+      {navigation.map((name) => {
+        const route = getRoute(name, locale);
+        const path = normalizePath(route.path);
+
+        const exact = path === currentPath;
+
+        const active =
+          exact || (name !== "home" && currentPath.startsWith(`${path}/`));
+
+        return (
+          <a
+            href={route.path}
+            aria-current={exact ? "page" : active ? "location" : undefined}
+          >
+            {route.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <div class="preferences">
+      <a href={alternatePath} lang={alternateLocale} hreflang={alternateLocale}>
+        {t.changeLanguage}
+      </a>
+
+      <ThemeToggle locale={locale} />
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .header-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 2rem;
+    min-height: 5rem;
+    padding-block: 1rem;
+  }
+
+  .wordmark {
+    color: var(--color-text);
+    font-size: 1.125rem;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    text-decoration: none;
+  }
+
+  .main-navigation,
+  .preferences {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .main-navigation {
+    justify-content: center;
+  }
+
+  .main-navigation a,
+  .preferences a {
+    color: var(--color-muted);
+    font-size: 0.875rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .main-navigation a:hover,
+  .preferences a:hover {
+    color: var(--color-text);
+  }
+
+  .main-navigation a[aria-current] {
+    color: var(--color-text);
+    text-decoration: underline;
+    text-underline-offset: 0.4em;
+    text-decoration-thickness: 1px;
+  }
+
+  @media (max-width: 1040px) {
+    .header-inner {
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+    }
+
+    .main-navigation {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      justify-content: flex-start;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .preferences {
+      grid-column: 2;
+      grid-row: 1;
+      justify-content: flex-end;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .preferences {
+      gap: 0.75rem;
+    }
+
+    .wordmark {
+      font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 360px) {
+    .header-inner {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+
+    .wordmark {
+      grid-row: 1;
+      grid-column: 1;
+    }
+
+    .preferences {
+      grid-row: 2;
+      grid-column: 1;
+      justify-content: flex-start;
+    }
+
+    .main-navigation {
+      grid-row: 3;
+      grid-column: 1;
+      gap: 0.75rem 1.25rem;
+    }
+  }
+</style>

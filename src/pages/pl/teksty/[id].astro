@@ -1,0 +1,17 @@
+---
+import PostPage from "@/components/PostPage.astro";
+
+import { getPostPaths, type Post } from "@/lib/writing";
+
+export async function getStaticPaths() {
+  return getPostPaths("pl");
+}
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+---
+
+<PostPage post={post} />

@@ -1,0 +1,83 @@
+---
+import { render } from "astro:content";
+
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+
+import { projectsPath, projectPath, type Project } from "@/lib/projects";
+
+import { getAlternateLocale } from "@/i18n/ui";
+
+interface Props {
+  project: Project;
+}
+
+const { project } = Astro.props;
+const { data } = project;
+
+const { Content } = await render(project);
+
+const t = {
+  en: {
+    allProjects: "All projects",
+    repository: "Source code",
+    website: "Website",
+  },
+  pl: {
+    allProjects: "Wszystkie projekty",
+    repository: "Kod źródłowy",
+    website: "Strona internetowa",
+  },
+}[data.locale];
+---
+
+<ArticleLayout
+  title={data.title}
+  description={data.description}
+  locale={data.locale}
+  alternatePath={projectPath(data.key, getAlternateLocale(data.locale))}
+>
+  <div class="project-metadata" slot="metadata">
+    <p class="description">{data.description}</p>
+
+    {(data.repository || data.website) && (
+      <div class="links">
+        {data.repository && <a href={data.repository}>{t.repository}</a>}
+
+        {data.website && <a href={data.website}>{t.website}</a>}
+      </div>
+    )}
+  </div>
+
+  <Content />
+
+  <nav class="project-navigation" aria-label={t.allProjects}>
+    <a href={projectsPath(data.locale)}>{t.allProjects}</a>
+  </nav>
+</ArticleLayout>
+
+<style>
+  .project-metadata {
+    margin-top: 1.5rem;
+  }
+
+  .description {
+    color: var(--color-muted);
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
+    margin-top: 1.25rem;
+    font-size: 0.9375rem;
+  }
+
+  .project-navigation {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.9375rem;
+  }
+</style>

@@ -1,0 +1,143 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+import { getProjects, projectPath, projectsPath } from "@/lib/projects";
+
+import { getAlternateLocale, type Locale } from "@/i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const projects = await getProjects(locale);
+
+const t = {
+  en: {
+    title: "Projects",
+    description:
+      "A selection of things I've built, contributed to or worked on.",
+    empty: "There are no published projects yet.",
+    repository: "Source code",
+    website: "Website",
+  },
+  pl: {
+    title: "Projekty",
+    description:
+      "Wybrane projekty, które stworzyłem lub w których brałem udział.",
+    empty: "Nie ma jeszcze opublikowanych projektów.",
+    repository: "Kod źródłowy",
+    website: "Strona internetowa",
+  },
+}[locale];
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  locale={locale}
+  alternatePath={projectsPath(getAlternateLocale(locale))}
+>
+  <div class="container projects-container">
+    <header class="page-header">
+      <h1>{t.title}</h1>
+      <p>{t.description}</p>
+    </header>
+
+    {projects.length === 0 ? (
+      <p class="muted">{t.empty}</p>
+    ) : (
+      <ul class="project-list">
+        {projects.map(({ data }) => (
+          <li class="project">
+            <h2>
+              <a href={projectPath(data.key, locale)}>{data.title}</a>
+            </h2>
+
+            <div class="project-details">
+              <p>{data.description}</p>
+
+              {(data.repository || data.website) && (
+                <div class="project-links">
+                  {data.repository && (
+                    <a href={data.repository}>{t.repository}</a>
+                  )}
+
+                  {data.website && <a href={data.website}>{t.website}</a>}
+                </div>
+              )}
+            </div>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .projects-container {
+    padding-block: var(--section-spacing);
+  }
+
+  .page-header {
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .page-header p {
+    margin-top: 1.5rem;
+    color: var(--color-muted);
+    font-size: 1.125rem;
+    max-width: 55ch;
+    text-wrap: pretty;
+  }
+
+  .project-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .project {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+    gap: 1rem 3rem;
+    padding-block: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .project h2 {
+    font-size: clamp(1.375rem, 2.5vw, 1.875rem);
+    overflow-wrap: anywhere;
+  }
+
+  .project h2 a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .project h2 a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .project-details p {
+    color: var(--color-muted);
+    text-wrap: pretty;
+  }
+
+  .project-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 640px) {
+    .project {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.75rem;
+    }
+  }
+</style>

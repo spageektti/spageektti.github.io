@@ -1,0 +1,69 @@
+---
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+
+import * as english from "@/content/now/en.md";
+import * as polish from "@/content/now/pl.md";
+
+import type { Locale } from "@/i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const { Content, frontmatter } = locale === "en" ? english : polish;
+
+const updated = new Intl.DateTimeFormat(locale, {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+}).format(new Date(frontmatter.updated));
+
+const updatedLabel = locale === "en" ? "Last updated" : "Ostatnia aktualizacja";
+---
+
+<ArticleLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  locale={locale}
+  alternatePath={locale === "en" ? "/pl/teraz/" : "/now/"}
+>
+  <p class="updated" slot="metadata">
+    {updatedLabel}:<time datetime={frontmatter.updated}>{updated}</time>
+  </p>
+
+  <Content />
+
+  <aside class="explanation">
+    {locale === "en" ? (
+      <p>
+        This is a <a href="https://nownownow.com/about">now page</a>. Unlike my
+        About page, it changes as my interests and priorities evolve.
+      </p>
+    ) : (
+      <p>
+        To tak zwana <a href="https://nownownow.com/about">now page</a>. W
+        przeciwieństwie do strony „O mnie” zmienia się wraz z moimi
+        zainteresowaniami i priorytetami.
+      </p>
+    )}
+  </aside>
+</ArticleLayout>
+
+<style>
+  .updated {
+    margin-top: 1.25rem;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+
+  .explanation {
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-border);
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+</style>

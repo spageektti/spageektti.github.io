@@ -1,0 +1,358 @@
+---
+import { Image } from "astro:assets";
+
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+import portrait from "@/assets/images/portrait.jpg";
+import olympiad from "@/assets/images/olympiad.jpg";
+
+import { home } from "@/i18n/home";
+import type { Locale } from "@/i18n/ui";
+
+import HomeHighlights from "@/components/HomeHighlights.astro";
+
+import { socialProfiles } from "@/config/site";
+import { getRoute } from "@/i18n/routes";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = home[locale];
+
+const alternatePath = locale === "en" ? "/pl/" : "/";
+---
+
+<BaseLayout
+  locale={locale}
+  description={t.description}
+  alternatePath={alternatePath}
+>
+  <div class="container">
+    <section class="hero" aria-labelledby="home-title">
+      <div class="hero-copy">
+        <h1 id="home-title">
+          Wiktor
+          <br />
+          Perskawiec
+        </h1>
+
+        <p class="intro">{t.intro}</p>
+
+        <p class="welcome">{t.welcome}</p>
+
+        <div class="hero-links">
+          <a href={getRoute("about", locale).path}>
+            {locale === "en" ? "More about me" : "Więcej o mnie"}
+          </a>
+
+          <a href="#elsewhere">
+            {locale === "en" ? "Find me online" : "Moje profile"}
+          </a>
+        </div>
+      </div>
+
+      <figure class="hero-photo">
+        <Image
+          src={portrait}
+          alt={t.portraitAlt}
+          width={960}
+          widths={[320, 400, 480, 640, 800, 960]}
+          sizes="(max-width: 760px) min(480px, calc(100vw - 2 * clamp(1.25rem, 4vw, 3rem))), 440px"
+          layout="constrained"
+          format="webp"
+          quality={78}
+          priority
+        />
+      </figure>
+    </section>
+
+    <section class="section computing" aria-labelledby="computing-title">
+      <div class="section-copy">
+        <h2 id="computing-title">{t.computing.title}</h2>
+
+        <div class="paragraphs">
+          {t.computing.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+
+        <a href="https://github.com/tldr-pages/tldr">tldr-pages</a>
+      </div>
+
+      <figure class="olympiad-photo">
+        <Image
+          src={olympiad}
+          alt={t.computing.imageAlt}
+          width={600}
+          widths={[240, 320, 480, 600]}
+          sizes="(max-width: 760px) min(320px, calc(100vw - 2 * clamp(1.25rem, 4vw, 3rem))), (max-width: 900px) 240px, 320px"
+          layout="constrained"
+          format="webp"
+          quality={80}
+          loading="lazy"
+          decoding="async"
+        />
+
+        <figcaption>{t.computing.caption}</figcaption>
+      </figure>
+    </section>
+
+    <section class="section personal" aria-labelledby="personal-title">
+      <h2 id="personal-title">{t.personal.title}</h2>
+
+      <div class="personal-copy">
+        <div class="paragraphs">
+          {t.personal.paragraphs.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+
+        <div class="personal-links">
+          <a href={getRoute("bookshelf", locale).path}>
+            {locale === "en" ? "My bookshelf" : "Moja biblioteczka"}
+          </a>
+
+          <a href={getRoute("now", locale).path}>
+            {locale === "en" ? "What I'm up to now" : "Czym się teraz zajmuję"}
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <HomeHighlights locale={locale} />
+
+    <section
+      class="section elsewhere"
+      id="elsewhere"
+      aria-labelledby="elsewhere-title"
+    >
+      <div>
+        <h2 id="elsewhere-title">{t.elsewhere.title}</h2>
+
+        <p>{t.elsewhere.description}</p>
+      </div>
+
+      <ul class="social-links">
+        {socialProfiles.map((profile) => (
+          <li>
+            <a href={profile.url}>
+              <span>{profile.name}</span>
+
+              {profile.handle && <span class="username">{profile.handle}</span>}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* Homepage introduction */
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 6vw, 6rem);
+    padding-block: clamp(3rem, 7vw, 6rem);
+  }
+
+  .hero-copy {
+    min-width: 0;
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 6vw, 5.25rem);
+    font-weight: 650;
+    line-height: 1.04;
+    letter-spacing: -0.055em;
+  }
+
+  .intro {
+    max-width: 34ch;
+    margin-top: 2rem;
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  .welcome {
+    max-width: 48ch;
+    margin-top: 1.25rem;
+    color: var(--color-muted);
+    text-wrap: pretty;
+  }
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.75rem;
+    margin-top: 2rem;
+    font-size: 0.9375rem;
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  .hero-photo {
+    width: 100%;
+    max-width: 440px;
+    justify-self: end;
+  }
+
+  .hero-photo img {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Shared section styles */
+
+  .section {
+    border-top: 1px solid var(--color-border);
+    padding-block: var(--section-spacing);
+  }
+
+  .paragraphs {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 65ch;
+    line-height: 1.75;
+    text-wrap: pretty;
+  }
+
+  /* Computer science */
+
+  .computing {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 320px);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .section-copy .paragraphs {
+    margin-block: 1.5rem;
+  }
+
+  .olympiad-photo img {
+    width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-muted);
+  }
+
+  /* Personal interests */
+
+  .personal {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr);
+    gap: 2rem 4rem;
+    align-items: start;
+  }
+
+  /* Social profiles */
+
+  .elsewhere {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 2rem 4rem;
+    align-items: start;
+  }
+
+  .elsewhere p {
+    margin-top: 1rem;
+    color: var(--color-muted);
+    max-width: 42ch;
+  }
+
+  .social-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .social-links li {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .social-links a {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    padding-block: 1rem;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .social-links a:hover {
+    color: var(--color-accent);
+  }
+
+  .username {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+  }
+
+  /* Responsive layout */
+
+  @media (max-width: 900px) {
+    .hero {
+      gap: 2rem;
+    }
+
+    .computing {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 240px);
+      gap: 2rem;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .hero,
+    .computing,
+    .personal,
+    .elsewhere {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .hero {
+      gap: 2.5rem;
+    }
+
+    .hero-photo {
+      max-width: 480px;
+      justify-self: start;
+    }
+
+    .olympiad-photo {
+      max-width: 320px;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 10vw, 4.75rem);
+    }
+  }
+
+  @media (max-width: 350px) {
+    h1 {
+      font-size: 2.25rem;
+    }
+  }
+
+  .personal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.75rem;
+    margin-top: 1.5rem;
+    font-size: 0.9375rem;
+  }
+</style>

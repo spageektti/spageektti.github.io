@@ -1,0 +1,93 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Page not found / Nie znaleziono strony"
+  description="The requested page could not be found."
+  locale="en"
+  languageFallbackPath="/pl/"
+  noIndex
+>
+  <div class="container error-page">
+    <div class="error-content">
+      <h1>404</h1>
+
+      <div class="languages">
+        <section lang="en">
+          <h2>Page not found</h2>
+
+          <p>
+            The page you're looking for may have been moved, removed or never
+            existed.
+          </p>
+
+          <a href="/">Return to the homepage</a>
+        </section>
+
+        <section lang="pl">
+          <h2>Nie znaleziono strony</h2>
+
+          <p>
+            Strona, której szukasz, mogła zostać przeniesiona, usunięta lub
+            nigdy nie istniała.
+          </p>
+
+          <a href="/pl/">Wróć na stronę główną</a>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .error-page {
+    display: grid;
+    align-content: center;
+    min-height: 65svh;
+    padding-block: var(--section-spacing);
+  }
+
+  .error-content {
+    width: 100%;
+    max-width: 850px;
+    margin-inline: auto;
+  }
+
+  h1 {
+    font-size: clamp(6rem, 18vw, 12rem);
+    line-height: 1;
+    letter-spacing: -0.075em;
+    font-weight: 650;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .languages {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem 4rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin-block: 1rem 1.5rem;
+    color: var(--color-muted);
+    text-wrap: pretty;
+  }
+
+  a {
+    font-size: 0.9375rem;
+  }
+
+  @media (max-width: 640px) {
+    .languages {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

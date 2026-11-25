@@ -1,0 +1,141 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { Locale } from "@/i18n/ui";
+
+import type { ArticleMetadata } from "@/lib/seo";
+
+interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  alternatePath?: string;
+  languageFallbackPath?: string;
+  article?: ArticleMetadata;
+}
+
+const {
+  title,
+  description,
+  locale,
+  alternatePath,
+  languageFallbackPath,
+  article,
+} = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  locale={locale}
+  alternatePath={alternatePath}
+  languageFallbackPath={languageFallbackPath}
+  article={article}
+>
+  <div class="container article-container">
+    <article class="article">
+      <header class="article-header">
+        <h1>{title}</h1>
+        <slot name="metadata" />
+      </header>
+
+      <div class="article-body">
+        <slot />
+      </div>
+    </article>
+  </div>
+</BaseLayout>
+
+<style>
+  .article-container {
+    padding-block: var(--section-spacing);
+  }
+
+  .article {
+    max-width: 74ch;
+    margin-inline: auto;
+  }
+
+  .article-header {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  h1 {
+    font-size: clamp(2.75rem, 6vw, 4.5rem);
+  }
+
+  .article-body {
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+  }
+
+  .article-body :global(p) {
+    margin-block: 1.25em;
+  }
+
+  .article-body :global(h2) {
+    margin-top: 2em;
+    margin-bottom: 0.75em;
+    font-size: 1.75rem;
+  }
+
+  .article-body :global(h3) {
+    margin-top: 1.75em;
+    margin-bottom: 0.75em;
+  }
+
+  .article-body :global(ul),
+  .article-body :global(ol) {
+    padding-inline-start: 1.5em;
+    margin-block: 1.25em;
+  }
+
+  .article-body :global(li + li) {
+    margin-top: 0.35em;
+  }
+
+  .article-body :global(blockquote) {
+    margin: 2rem 0;
+    padding-block: 1rem;
+    border-block: 1px solid var(--color-border);
+    color: var(--color-muted);
+  }
+
+  .article-body :global(pre) {
+    overflow-x: auto;
+    padding: 1rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .article-body :global(img) {
+    margin-block: 2rem;
+  }
+
+  .article-body :global(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin-block: 1.5rem;
+  }
+
+  .article-body :global(th),
+  .article-body :global(td) {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--color-border);
+    text-align: start;
+  }
+
+  .article-body :global(> :first-child) {
+    margin-top: 0;
+  }
+
+  .article-body :global(> :last-child) {
+    margin-bottom: 0;
+  }
+</style>

@@ -1,0 +1,262 @@
+---
+import "@/styles/global.css";
+
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+
+import { getTranslations, getAlternateLocale, type Locale } from "@/i18n/ui";
+
+import {
+  createStructuredData,
+  serializeStructuredData,
+  type ArticleMetadata,
+} from "@/lib/seo";
+
+import { getRoute, normalizePath } from "@/i18n/routes";
+
+interface Props {
+  title?: string;
+  description: string;
+  locale?: Locale;
+  alternatePath?: string;
+  languageFallbackPath?: string;
+  article?: ArticleMetadata;
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description,
+  locale = "en",
+  alternatePath,
+  languageFallbackPath,
+  article,
+  noIndex = false,
+} = Astro.props;
+
+const t = getTranslations(locale);
+const alternateLocale = getAlternateLocale(locale);
+
+const fullTitle = title ? `${title} | Wiktor Perskawiec` : "Wiktor Perskawiec";
+
+const canonicalPath = Astro.url.pathname.replace(/\/+$/, "") + "/";
+
+const canonicalURL = new URL(canonicalPath, Astro.site);
+
+const alternateURL = alternatePath
+  ? new URL(alternatePath, Astro.site)
+  : undefined;
+
+const englishURL = locale === "en" ? canonicalURL : alternateURL;
+
+const socialImage = new URL("/social.jpg", Astro.site);
+
+const socialImageAlt =
+  locale === "en"
+    ? "Wiktor Perskawiec, perskawiec.cc, alongside a mountain portrait."
+    : "Wiktor Perskawiec, perskawiec.cc, obok zdjęcia w górach.";
+
+const isProfilePage =
+  normalizePath(Astro.url.pathname) ===
+  normalizePath(getRoute("about", locale).path);
+
+const structuredData = createStructuredData({
+  title: title ?? fullTitle,
+  description,
+  locale,
+  canonicalURL,
+  article,
+  profile: isProfilePage,
+});
+---
+
+<!doctype html>
+<html lang={locale} data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="theme-color" content="#141414" />
+    <script is:inline>
+      let theme = "dark";
+
+      try {
+        if (localStorage.getItem("theme") === "light") {
+          theme = "light";
+        }
+      } catch {
+        // Dark mode remains the default.
+      }
+
+      document.documentElement.dataset.theme = theme;
+
+      document
+        .querySelector('meta[name="theme-color"]')
+        ?.setAttribute("content", theme === "light" ? "#ffffff" : "#141414");
+    </script>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <meta name="author" content="Wiktor Perskawiec" />
+
+    <title>{fullTitle}</title>
+
+    <!-- Canonical and localized URLs -->
+    {!noIndex && (
+      <>
+        <link rel="canonical" href={canonicalURL} />
+
+        <link rel="alternate" hreflang={locale} href={canonicalURL} />
+
+        {alternateURL && (
+          <link
+            rel="alternate"
+            hreflang={alternateLocale}
+            href={alternateURL}
+          />
+        )}
+
+        {alternateURL && englishURL && (
+          <link rel="alternate" hreflang="x-default" href={englishURL} />
+        )}
+      </>
+    )}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={article ? "article" : "website"} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="perskawiec.cc" />
+
+    <meta property="og:locale" content={locale === "en" ? "en_US" : "pl_PL"} />
+
+    {alternateURL && (
+      <meta
+        property="og:locale:alternate"
+        content={locale === "en" ? "pl_PL" : "en_US"}
+      />
+    )}
+
+    <meta property="og:image" content={socialImage.href} />
+
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta property="og:image:alt" content={socialImageAlt} />
+
+    <!-- Social cards -->
+
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta name="twitter:title" content={fullTitle} />
+
+    <meta name="twitter:description" content={description} />
+
+    <meta name="twitter:image" content={socialImage.href} />
+
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+
+    <!-- Article metadata -->
+
+    {article && (
+      <>
+        <meta
+          property="article:published_time"
+          content={article.published.toISOString()}
+        />
+
+        {article.updated && (
+          <meta
+            property="article:modified_time"
+            content={article.updated.toISOString()}
+          />
+        )}
+
+        {article.tags?.map((tag) => (
+          <meta property="article:tag" content={tag} />
+        ))}
+      </>
+    )}
+
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={
+        locale === "en"
+          ? "Wiktor Perskawiec — Writing"
+          : "Wiktor Perskawiec — Teksty"
+      }
+      href={locale === "en" ? "/rss.xml" : "/pl/rss.xml"}
+    />
+
+    <link rel="icon" href="/favicon.ico" sizes="48x48" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+    {!noIndex && (
+      <script
+        is:inline
+        type="application/ld+json"
+        set:html={serializeStructuredData(structuredData)}
+      />
+    )}
+
+    {noIndex && <meta name="robots" content="noindex, follow" />}
+
+    <slot name="head" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">
+      {t.skipToContent}
+    </a>
+
+    <Header
+      locale={locale}
+      alternatePath={
+        alternatePath ??
+        languageFallbackPath ??
+        (locale === "en" ? "/pl/" : "/")
+      }
+    />
+
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+
+    <Footer locale={locale} />
+  </body>
+</html>
+
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+  }
+
+  main {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .skip-link {
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 100;
+    padding: 0.75rem 1rem;
+    background: var(--color-background);
+    color: var(--color-text);
+    transform: translateY(-200%);
+  }
+
+  .skip-link:focus {
+    transform: translateY(0);
+  }
+</style>

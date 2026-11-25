@@ -1,0 +1,160 @@
+---
+import { getProjects, projectPath, projectsPath } from "@/lib/projects";
+
+import { getPosts, postPath, writingPath, formatDate } from "@/lib/writing";
+
+import type { Locale } from "@/i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const [projects, posts] = await Promise.all([
+  getProjects(locale),
+  getPosts(locale),
+]);
+
+const featuredProjects = projects
+  .filter(({ data }) => data.featured)
+  .slice(0, 3);
+
+const recentPosts = posts.slice(0, 3);
+
+const t = {
+  en: {
+    projects: "Selected projects",
+    writing: "Recent writing",
+    allProjects: "All projects",
+    allPosts: "All articles",
+  },
+  pl: {
+    projects: "Wybrane projekty",
+    writing: "Najnowsze teksty",
+    allProjects: "Wszystkie projekty",
+    allPosts: "Wszystkie teksty",
+  },
+}[locale];
+---
+
+{(featuredProjects.length > 0 || recentPosts.length > 0) && (
+  <div class="highlights">
+    {featuredProjects.length > 0 && (
+      <section aria-labelledby="featured-projects">
+        <h2 id="featured-projects">{t.projects}</h2>
+
+        <ul class="entries">
+          {featuredProjects.map(({ data }) => (
+            <li class="entry">
+              <h3>
+                <a href={projectPath(data.key, locale)}>{data.title}</a>
+              </h3>
+
+              <p>{data.description}</p>
+            </li>
+          ))}
+        </ul>
+
+        <a class="archive-link" href={projectsPath(locale)}>
+          {t.allProjects}
+        </a>
+      </section>
+    )}
+
+    {recentPosts.length > 0 && (
+      <section aria-labelledby="recent-writing">
+        <h2 id="recent-writing">{t.writing}</h2>
+
+        <ul class="entries">
+          {recentPosts.map(({ data }) => (
+            <li class="entry">
+              <time datetime={data.published.toISOString().slice(0, 10)}>
+                {formatDate(data.published, locale)}
+              </time>
+
+              <h3>
+                <a href={postPath(data.key, locale)}>{data.title}</a>
+              </h3>
+
+              <p>{data.description}</p>
+            </li>
+          ))}
+        </ul>
+
+        <a class="archive-link" href={writingPath(locale)}>
+          {t.allPosts}
+        </a>
+      </section>
+    )}
+  </div>
+)}
+
+<style>
+  .highlights {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+    gap: 3.5rem clamp(2rem, 6vw, 5rem);
+    padding-block: var(--section-spacing);
+    border-top: 1px solid var(--color-border);
+  }
+
+  section {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  h2 {
+    margin-bottom: 1.75rem;
+  }
+
+  .entries {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .entry {
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  h3 {
+    font-size: 1.25rem;
+    overflow-wrap: anywhere;
+  }
+
+  h3 a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  h3 a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  .entry p {
+    margin-top: 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    text-wrap: pretty;
+  }
+
+  time {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .archive-link {
+    align-self: flex-start;
+    margin-top: auto;
+    padding-top: 1.5rem;
+    font-size: 0.9375rem;
+  }
+</style>

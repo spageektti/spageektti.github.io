@@ -1,0 +1,13 @@
+---
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+import { Content, frontmatter } from "@/content/about/pl.md";
+---
+
+<ArticleLayout
+  title={frontmatter.title}
+  description={frontmatter.description}
+  locale="pl"
+  alternatePath="/about/"
+>
+  <Content />
+</ArticleLayout>

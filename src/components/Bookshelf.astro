@@ -1,0 +1,115 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { books } from "@/content/books";
+import type { Locale } from "@/i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const t = {
+  en: {
+    title: "Bookshelf",
+    description:
+      "A selection of books I've enjoyed, found interesting or consider worth recommending.",
+    empty: "I haven't added any books yet.",
+  },
+  pl: {
+    title: "Książki",
+    description:
+      "Wybrane książki, które mi się spodobały, zainteresowały mnie lub które uważam za warte polecenia.",
+    empty: "Nie dodałem jeszcze żadnych książek.",
+  },
+}[locale];
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  locale={locale}
+  alternatePath={locale === "en" ? "/pl/ksiazki/" : "/bookshelf/"}
+>
+  <div class="container bookshelf">
+    <header class="page-header">
+      <h1>{t.title}</h1>
+      <p>{t.description}</p>
+    </header>
+
+    {books.length === 0 ? (
+      <p class="muted">{t.empty}</p>
+    ) : (
+      <ul class="book-list">
+        {books.map((book) => (
+          <li class="book">
+            <div class="book-heading">
+              <h2>{book.title[locale]}</h2>
+              <p class="author">{book.author}</p>
+            </div>
+
+            {book.note && <p class="book-note">{book.note[locale]}</p>}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .bookshelf {
+    padding-block: var(--section-spacing);
+  }
+
+  .page-header {
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .page-header p {
+    max-width: 55ch;
+    margin-top: 1.5rem;
+    color: var(--color-muted);
+    font-size: 1.125rem;
+    text-wrap: pretty;
+  }
+
+  .book-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .book {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1.4fr);
+    align-items: baseline;
+    gap: 1rem 4rem;
+    padding-block: 2rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .book-heading h2 {
+    font-size: clamp(1.375rem, 2.5vw, 1.875rem);
+  }
+
+  .author {
+    margin-top: 0.5rem;
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+  }
+
+  .book-note {
+    line-height: 1.7;
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 640px) {
+    .book {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1rem;
+    }
+  }
+</style>

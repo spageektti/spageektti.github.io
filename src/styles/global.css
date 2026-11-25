@@ -1,0 +1,238 @@
+:root {
+  color-scheme: dark;
+
+  /* Colors */
+  --color-background: #141414;
+  --color-surface: #202020;
+  --color-text: #eeeeee;
+  --color-muted: #a3a3a3;
+  --color-border: #333333;
+  --color-accent: #a5bcff;
+
+  /* Typography */
+  --font-sans:
+    system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", monospace;
+
+  /* Layout */
+  --width-content: 1120px;
+  --width-prose: 70ch;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section-spacing: clamp(3rem, 8vw, 6rem);
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --color-background: #ffffff;
+  --color-surface: #f4f4f4;
+  --color-text: #191919;
+  --color-muted: #666666;
+  --color-border: #dedede;
+  --color-accent: #2855a5;
+}
+
+/* Base */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 100%;
+  line-height: 1.6;
+  scroll-padding-top: 2rem;
+  background: var(--color-background);
+  color: var(--color-text);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100svh;
+  margin: 0;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-background);
+}
+
+/* Typography */
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.75rem, 6vw, 5rem);
+}
+
+h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+p {
+  margin: 0;
+}
+
+small {
+  font-size: 0.875rem;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-mono);
+}
+
+/* Links and controls */
+
+a {
+  color: var(--color-accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 5px;
+}
+
+/* Media */
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+/* Layout utilities */
+
+.container {
+  width: 100%;
+  max-width: calc(var(--width-content) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.prose {
+  max-width: var(--width-prose);
+}
+
+.prose > * + * {
+  margin-block-start: 1.25em;
+}
+
+.muted {
+  color: var(--color-muted);
+}
+
+hr {
+  margin: 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Accessibility */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Printing */
+
+@media print {
+  :root,
+  :root[data-theme="light"] {
+    color-scheme: light;
+
+    --color-background: #ffffff;
+    --color-surface: #ffffff;
+    --color-text: #000000;
+    --color-muted: #444444;
+    --color-border: #cccccc;
+    --color-accent: #000000;
+  }
+
+  .site-header,
+  .site-footer,
+  .skip-link {
+    display: none !important;
+  }
+
+  .container {
+    max-width: none;
+    padding-inline: 0;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+
+  figure,
+  pre {
+    break-inside: avoid;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+}

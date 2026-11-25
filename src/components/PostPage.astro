@@ -1,0 +1,127 @@
+---
+import { render } from "astro:content";
+
+import ArticleLayout from "@/layouts/ArticleLayout.astro";
+
+import {
+  getTranslation,
+  postPath,
+  writingPath,
+  formatDate,
+  type Post,
+} from "@/lib/writing";
+
+import { getAlternateLocale } from "@/i18n/ui";
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const { data } = post;
+
+const { Content } = await render(post);
+
+const translation = await getTranslation(post);
+const alternateLocale = getAlternateLocale(data.locale);
+
+const t = {
+  en: {
+    published: "Published",
+    updated: "Updated",
+    allPosts: "All articles",
+    translation: "Read in Polish",
+  },
+  pl: {
+    published: "Opublikowano",
+    updated: "Zaktualizowano",
+    allPosts: "Wszystkie teksty",
+    translation: "Przeczytaj po angielsku",
+  },
+}[data.locale];
+---
+
+<ArticleLayout
+  title={data.title}
+  description={data.description}
+  locale={data.locale}
+  alternatePath={translation ? postPath(data.key, alternateLocale) : undefined}
+  languageFallbackPath={writingPath(alternateLocale)}
+  article={{
+    published: data.published,
+    updated: data.updated,
+    tags: data.tags,
+  }}
+>
+  <div class="post-metadata" slot="metadata">
+    <p class="description">{data.description}</p>
+
+    <div class="dates">
+      <p>
+        {t.published}:
+        <time datetime={data.published.toISOString().slice(0, 10)}>
+          {formatDate(data.published, data.locale)}
+        </time>
+      </p>
+
+      {data.updated && (
+        <p>
+          {t.updated}:
+          <time datetime={data.updated.toISOString().slice(0, 10)}>
+            {formatDate(data.updated, data.locale)}
+          </time>
+        </p>
+      )}
+    </div>
+
+    {translation && (
+      <a
+        class="translation"
+        href={postPath(data.key, alternateLocale)}
+        hreflang={alternateLocale}
+      >
+        {t.translation}
+      </a>
+    )}
+  </div>
+
+  <Content />
+
+  <nav class="post-navigation" aria-label={t.allPosts}>
+    <a href={writingPath(data.locale)}>{t.allPosts}</a>
+  </nav>
+</ArticleLayout>
+
+<style>
+  .post-metadata {
+    margin-top: 1.5rem;
+  }
+
+  .description {
+    color: var(--color-muted);
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    margin-top: 1.25rem;
+    color: var(--color-muted);
+    font-size: 0.875rem;
+  }
+
+  .translation {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .post-navigation {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    font-size: 0.9375rem;
+  }
+</style>
