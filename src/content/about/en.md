@@ -11,6 +11,10 @@ Much of my time revolves around computer science, whether that's solving algorit
 
 I'm a medalist of the Junior Olympiad in Informatics. Competitive programming has been an opportunity to explore computer science beyond the school curriculum and meet people with similar interests.
 
+A more detailed record of my competition results,
+distinctions and related press coverage can be found
+on my [achievements page](/about/achievements/).
+
 I'm also a maintainer of [tldr-pages](https://github.com/tldr-pages/tldr), an open-source project providing practical, community-maintained documentation for command-line tools.
 
 ## Outside technology

@@ -66,6 +66,17 @@ export const routes = {
       path: "/pl/teraz/",
     },
   },
+
+  achievements: {
+    en: {
+      label: "Achievements",
+      path: "/about/achievements/",
+    },
+    pl: {
+      label: "Osiągnięcia",
+      path: "/pl/o-mnie/osiagniecia/",
+    },
+  },
 } as const;
 
 export type RouteName = keyof typeof routes;

@@ -1,0 +1,167 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import AchievementEntry from "@/components/AchievementEntry.astro";
+
+import { achievements } from "@/content/achievements";
+import { getRoute } from "@/i18n/routes";
+
+import { getAlternateLocale, type Locale } from "@/i18n/ui";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+const entries = [...achievements].sort((a, b) => b.year - a.year);
+
+const groups = [...new Set(entries.map(({ year }) => year))].map((year) => ({
+  year,
+  entries: entries.filter((entry) => entry.year === year),
+}));
+
+const t = {
+  en: {
+    title: "Achievements & press coverage",
+
+    description:
+      "Selected competition results, distinctions and related publications.",
+
+    about: "About me",
+
+    empty: "No achievements have been added yet.",
+  },
+
+  pl: {
+    title: "Osiągnięcia i publikacje prasowe",
+
+    description:
+      "Wybrane wyniki konkursów, wyróżnienia i związane z nimi publikacje.",
+
+    about: "O mnie",
+
+    empty: "Nie dodano jeszcze żadnych osiągnięć.",
+  },
+}[locale];
+---
+
+<BaseLayout
+  title={t.title}
+  description={t.description}
+  locale={locale}
+  alternatePath={getRoute("achievements", getAlternateLocale(locale)).path}
+>
+  <div class="container achievements-page">
+    <header class="page-header">
+      <a class="parent-link" href={getRoute("about", locale).path}>
+        {t.about}
+      </a>
+
+      <h1>{t.title}</h1>
+
+      <p>{t.description}</p>
+    </header>
+
+    {groups.length === 0 ? (
+      <p class="muted">{t.empty}</p>
+    ) : (
+      <div class="archive">
+        {groups.map(({ year, entries }) => (
+          <section class="year-group" aria-labelledby={`year-${year}`}>
+            <h2 class="year" id={`year-${year}`}>
+              {year}
+            </h2>
+
+            <ul class="achievement-list">
+              {entries.map((achievement) => (
+                <li>
+                  <AchievementEntry achievement={achievement} locale={locale} />
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  .achievements-page {
+    padding-block: var(--section-spacing);
+  }
+
+  .page-header {
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .parent-link {
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    font-size: 0.9375rem;
+  }
+
+  h1 {
+    max-width: 20ch;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    overflow-wrap: anywhere;
+  }
+
+  .page-header p {
+    max-width: 60ch;
+    margin-top: 1.5rem;
+    color: var(--color-muted);
+    font-size: 1.125rem;
+    text-wrap: pretty;
+  }
+
+  .archive {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .year-group {
+    display: grid;
+    grid-template-columns:
+      7rem
+      minmax(0, 1fr);
+    gap: 1.5rem 3rem;
+    padding-block: 3rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .year {
+    color: var(--color-muted);
+    font-size: 1.75rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .achievement-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+  }
+
+  .achievement-list > li + li {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 900px) {
+    .year-group {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .year {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .year-group {
+      padding-block: 2rem;
+    }
+  }
+</style>

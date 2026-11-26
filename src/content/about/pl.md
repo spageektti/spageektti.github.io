@@ -11,6 +11,10 @@ Sporą część mojego czasu zajmuje informatyka – rozwiązywanie problemów a
 
 Jestem medalistą Olimpiady Informatycznej Juniorów. Programowanie konkursowe pozwoliło mi poznawać informatykę wykraczającą poza szkolny program i spotkać osoby o podobnych zainteresowaniach.
 
+Bardziej szczegółowy wykaz moich wyników konkursowych,
+wyróżnień i związanych z nimi publikacji znajduje się
+na stronie [Osiągnięcia](/pl/o-mnie/osiagniecia/).
+
 Jestem również jednym z opiekunów projektu [tldr-pages](https://github.com/tldr-pages/tldr), w ramach którego społeczność open source tworzy praktyczną dokumentację narzędzi wiersza poleceń.
 
 ## Poza technologią
